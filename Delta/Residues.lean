@@ -33,6 +33,15 @@ end IsCousinPrime
 
 namespace DeltaCondition
 
+/-- Every Δ offset is congruent to `3` modulo `6`. -/
+theorem delta_mod_six {p δ : ℕ} (h : DeltaCondition p δ) : δ % 6 = 3 := by
+  have hOdd : Odd δ := h.1
+  obtain ⟨k, hk⟩ := h.2.1
+  subst δ
+  have hkOdd : Odd k := Nat.Odd.of_mul_right hOdd
+  obtain ⟨m, hm⟩ := hkOdd
+  omega
+
 /-- Subtracting a Δ offset preserves the centre's residue modulo three. -/
 theorem lower_modEq_center {p δ : ℕ} (h : DeltaCondition p δ) :
     p + 1 - δ ≡ p + 1 [MOD 3] := by
