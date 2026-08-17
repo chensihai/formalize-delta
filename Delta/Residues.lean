@@ -50,6 +50,17 @@ theorem delta_eq_six_mul_add_three {p δ : ℕ} (h : DeltaCondition p δ) :
     δ = δ % 6 + 6 * (δ / 6) := (Nat.mod_add_div δ 6).symm
     _ = 6 * (δ / 6) + 3 := by rw [delta_mod_six h]; omega
 
+/-- Rewrite the symmetric prime pair using the parameter in `δ = 6 * k + 3`. -/
+theorem symmetric_pair_eq_k_form {p δ : ℕ} (h : DeltaCondition p δ) :
+    ∃ k : ℕ,
+      p + 1 - δ = p - 2 - 6 * k ∧
+      p + 1 + δ = p + 4 + 6 * k := by
+  obtain ⟨k, hk⟩ := delta_eq_six_mul_add_three h
+  refine ⟨k, ?_, ?_⟩
+  · have hlt := h.lt_center
+    omega
+  · omega
+
 /-- Subtracting a Δ offset preserves the centre's residue modulo three. -/
 theorem lower_modEq_center {p δ : ℕ} (h : DeltaCondition p δ) :
     p + 1 - δ ≡ p + 1 [MOD 3] := by
@@ -90,6 +101,7 @@ status.
 #check Delta.IsCousinPrime.center_mod_three
 #check Delta.DeltaCondition.delta_mod_six
 #check Delta.DeltaCondition.delta_eq_six_mul_add_three
+#check Delta.DeltaCondition.symmetric_pair_eq_k_form
 #check Delta.DeltaCondition.lower_modEq_center
 #check Delta.DeltaCondition.upper_modEq_center
 #check Delta.DeltaCondition.prime_pair_mod_three
