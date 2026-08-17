@@ -20,6 +20,12 @@ def DeltaCondition (p δ : ℕ) : Prop :=
     Nat.Prime (p + 1 - δ) ∧
     Nat.Prime (p + 1 + δ)
 
+/-- The Δ condition in the coordinate `δ = 6 * k + 3`. -/
+def KDeltaCondition (p k : ℕ) : Prop :=
+  6 * k + 3 < p + 1 ∧
+    Nat.Prime (p - 2 - 6 * k) ∧
+    Nat.Prime (p + 4 + 6 * k)
+
 /-- The literal universal reading of the manuscript, including `p = 3`. -/
 def RawDeltaConjecture : Prop :=
   ∀ p : ℕ, IsCousinPrime p → ∃ δ : ℕ, DeltaCondition p δ

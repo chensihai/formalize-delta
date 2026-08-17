@@ -26,6 +26,54 @@ theorem goldbach_pair {p δ : ℕ} (h : DeltaCondition p δ) :
 
 end DeltaCondition
 
+/-- Existence of a Δ offset is equivalent to existence of its `k`-coordinate. -/
+theorem exists_deltaCondition_iff_exists_kDeltaCondition {p : ℕ} :
+    (∃ δ : ℕ, DeltaCondition p δ) ↔ ∃ k : ℕ, KDeltaCondition p k := by
+  constructor
+  · rintro ⟨δ, hδ⟩
+    have hlt : δ < p + 1 := hδ.lt_center
+    have hOdd : Odd δ := hδ.1
+    obtain ⟨m, hm⟩ := hδ.2.1
+    subst δ
+    have hmOdd : Odd m := Nat.Odd.of_mul_right hOdd
+    obtain ⟨k, hk⟩ := hmOdd
+    subst m
+    refine ⟨k, ?_⟩
+    change 6 * k + 3 < p + 1 ∧
+      Nat.Prime (p - 2 - 6 * k) ∧
+      Nat.Prime (p + 4 + 6 * k)
+    refine ⟨?_, ?_, ?_⟩
+    · omega
+    · have hlower :
+          p + 1 - 3 * (2 * k + 1) = p - 2 - 6 * k := by
+        omega
+      rw [← hlower]
+      exact hδ.2.2.1
+    · have hupper :
+          p + 1 + 3 * (2 * k + 1) = p + 4 + 6 * k := by
+        omega
+      rw [← hupper]
+      exact hδ.2.2.2
+  · rintro ⟨k, hkDelta⟩
+    change 6 * k + 3 < p + 1 ∧
+      Nat.Prime (p - 2 - 6 * k) ∧
+      Nat.Prime (p + 4 + 6 * k) at hkDelta
+    rcases hkDelta with ⟨hk, hLower, hUpper⟩
+    refine ⟨6 * k + 3, ?_⟩
+    refine ⟨?_, ?_, ?_, ?_⟩
+    · exact ⟨3 * k + 1, by omega⟩
+    · exact ⟨2 * k + 1, by omega⟩
+    · have hlower :
+          p + 1 - (6 * k + 3) = p - 2 - 6 * k := by
+        omega
+      rw [hlower]
+      exact hLower
+    · have hupper :
+          p + 1 + (6 * k + 3) = p + 4 + 6 * k := by
+        omega
+      rw [hupper]
+      exact hUpper
+
 /-- The smallest non-exceptional cousin-prime pair has the witness `δ = 3`. -/
 theorem deltaCondition_seven_three : DeltaCondition 7 3 := by
   norm_num [DeltaCondition]
