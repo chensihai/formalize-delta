@@ -1,1 +1,1 @@
-import Delta.Conjecture
+import Delta.Residues
