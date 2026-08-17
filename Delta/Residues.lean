@@ -128,6 +128,32 @@ theorem upper_mod_three {p k : ℕ} (hp3 : 3 < p) (hp : IsCousinPrime p)
   have hlt : 6 * k + 3 < p + 1 := h.offset_lt_center
   omega
 
+/--
+If the lower prime candidate is strictly larger than `5`, then the boundary
+case where that candidate equals the prime `5` is excluded, so `5` cannot
+divide it.
+-/
+theorem lower_not_dvd_five {p k : ℕ} (h5 : 5 < p - 2 - 6 * k)
+    (h : KDeltaCondition p k) :
+    ¬ 5 ∣ p - 2 - 6 * k := by
+  intro hdiv
+  have heq : p - 2 - 6 * k = 5 :=
+    ((h.2.1).dvd_iff_eq (by norm_num)).mp hdiv
+  omega
+
+/--
+If the upper prime candidate is strictly larger than `5`, then the boundary
+case where that candidate equals the prime `5` is excluded, so `5` cannot
+divide it.
+-/
+theorem upper_not_dvd_five {p k : ℕ} (h5 : 5 < p + 4 + 6 * k)
+    (h : KDeltaCondition p k) :
+    ¬ 5 ∣ p + 4 + 6 * k := by
+  intro hdiv
+  have heq : p + 4 + 6 * k = 5 :=
+    ((h.2.2).dvd_iff_eq (by norm_num)).mp hdiv
+  omega
+
 end KDeltaCondition
 
 end Delta
@@ -154,3 +180,5 @@ status.
 #check Delta.KDeltaCondition.upper_odd
 #check Delta.KDeltaCondition.lower_mod_three
 #check Delta.KDeltaCondition.upper_mod_three
+#check Delta.KDeltaCondition.lower_not_dvd_five
+#check Delta.KDeltaCondition.upper_not_dvd_five
