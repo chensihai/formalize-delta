@@ -42,6 +42,14 @@ theorem delta_mod_six {p δ : ℕ} (h : DeltaCondition p δ) : δ % 6 = 3 := by
   obtain ⟨m, hm⟩ := hkOdd
   omega
 
+/-- Every Δ offset has the form `6 * k + 3`. -/
+theorem delta_eq_six_mul_add_three {p δ : ℕ} (h : DeltaCondition p δ) :
+    ∃ k : ℕ, δ = 6 * k + 3 := by
+  refine ⟨δ / 6, ?_⟩
+  calc
+    δ = δ % 6 + 6 * (δ / 6) := (Nat.mod_add_div δ 6).symm
+    _ = 6 * (δ / 6) + 3 := by rw [delta_mod_six h]; omega
+
 /-- Subtracting a Δ offset preserves the centre's residue modulo three. -/
 theorem lower_modEq_center {p δ : ℕ} (h : DeltaCondition p δ) :
     p + 1 - δ ≡ p + 1 [MOD 3] := by
@@ -81,6 +89,7 @@ status.
 #check Delta.IsCousinPrime.start_mod_three
 #check Delta.IsCousinPrime.center_mod_three
 #check Delta.DeltaCondition.delta_mod_six
+#check Delta.DeltaCondition.delta_eq_six_mul_add_three
 #check Delta.DeltaCondition.lower_modEq_center
 #check Delta.DeltaCondition.upper_modEq_center
 #check Delta.DeltaCondition.prime_pair_mod_three
