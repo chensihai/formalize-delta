@@ -61,6 +61,12 @@ theorem symmetric_pair_eq_k_form {p δ : ℕ} (h : DeltaCondition p δ) :
     omega
   · omega
 
+/-- The `k`-coordinate rewrites the symmetric pair whenever subtraction is safe. -/
+theorem k_form_implies_symmetric_pair {p k : ℕ} (hk : 6 * k + 3 < p + 1) :
+    p + 1 - (6 * k + 3) = p - 2 - 6 * k ∧
+    p + 1 + (6 * k + 3) = p + 4 + 6 * k := by
+  constructor <;> omega
+
 /-- Subtracting a Δ offset preserves the centre's residue modulo three. -/
 theorem lower_modEq_center {p δ : ℕ} (h : DeltaCondition p δ) :
     p + 1 - δ ≡ p + 1 [MOD 3] := by
@@ -102,6 +108,7 @@ status.
 #check Delta.DeltaCondition.delta_mod_six
 #check Delta.DeltaCondition.delta_eq_six_mul_add_three
 #check Delta.DeltaCondition.symmetric_pair_eq_k_form
+#check Delta.DeltaCondition.k_form_implies_symmetric_pair
 #check Delta.DeltaCondition.lower_modEq_center
 #check Delta.DeltaCondition.upper_modEq_center
 #check Delta.DeltaCondition.prime_pair_mod_three
