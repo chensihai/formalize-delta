@@ -1,0 +1,9 @@
+name = "lean-delta"
+version = "0.1.0"
+
+[[require]]
+name = "mathlib"
+path = "../Projects/prime/mathlib4"
+
+[[lean_lib]]
+name = "Delta"
