@@ -92,6 +92,44 @@ theorem prime_pair_mod_three {p δ : ℕ} (hp3 : 3 < p) (hp : IsCousinPrime p)
 
 end DeltaCondition
 
+namespace KDeltaCondition
+
+/-- Every lower candidate in a valid `k`-coordinate is odd. -/
+theorem lower_odd {p k : ℕ} (hp3 : 3 < p) (hp : IsCousinPrime p)
+    (h : KDeltaCondition p k) :
+    (p - 2 - 6 * k) % 2 = 1 := by
+  have hpOdd : p % 2 = 1 :=
+    hp.1.mod_two_eq_one_iff_ne_two.mpr (by omega)
+  have hlt : 6 * k + 3 < p + 1 := h.offset_lt_center
+  omega
+
+/-- Every upper candidate in a valid `k`-coordinate is odd. -/
+theorem upper_odd {p k : ℕ} (hp3 : 3 < p) (hp : IsCousinPrime p)
+    (h : KDeltaCondition p k) :
+    (p + 4 + 6 * k) % 2 = 1 := by
+  have hpOdd : p % 2 = 1 :=
+    hp.1.mod_two_eq_one_iff_ne_two.mpr (by omega)
+  have hlt : 6 * k + 3 < p + 1 := h.offset_lt_center
+  omega
+
+/-- Every lower candidate in a valid `k`-coordinate is `2 mod 3`. -/
+theorem lower_mod_three {p k : ℕ} (hp3 : 3 < p) (hp : IsCousinPrime p)
+    (h : KDeltaCondition p k) :
+    (p - 2 - 6 * k) % 3 = 2 := by
+  have hpMod : p % 3 = 1 := hp.start_mod_three hp3
+  have hlt : 6 * k + 3 < p + 1 := h.offset_lt_center
+  omega
+
+/-- Every upper candidate in a valid `k`-coordinate is `2 mod 3`. -/
+theorem upper_mod_three {p k : ℕ} (hp3 : 3 < p) (hp : IsCousinPrime p)
+    (h : KDeltaCondition p k) :
+    (p + 4 + 6 * k) % 3 = 2 := by
+  have hpMod : p % 3 = 1 := hp.start_mod_three hp3
+  have hlt : 6 * k + 3 < p + 1 := h.offset_lt_center
+  omega
+
+end KDeltaCondition
+
 end Delta
 
 /-!
@@ -112,3 +150,7 @@ status.
 #check Delta.DeltaCondition.lower_modEq_center
 #check Delta.DeltaCondition.upper_modEq_center
 #check Delta.DeltaCondition.prime_pair_mod_three
+#check Delta.KDeltaCondition.lower_odd
+#check Delta.KDeltaCondition.upper_odd
+#check Delta.KDeltaCondition.lower_mod_three
+#check Delta.KDeltaCondition.upper_mod_three
