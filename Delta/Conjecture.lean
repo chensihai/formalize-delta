@@ -26,6 +26,25 @@ theorem goldbach_pair {p δ : ℕ} (h : DeltaCondition p δ) :
 
 end DeltaCondition
 
+namespace KDeltaCondition
+
+/-- A valid `k`-coordinate has its offset strictly below the centre. -/
+theorem offset_lt_center {p k : ℕ} (h : KDeltaCondition p k) :
+    6 * k + 3 < p + 1 :=
+  h.1
+
+/--
+A valid `k`-coordinate lies in a finite search range: it is strictly below
+`(p - 3) / 6 + 1`.  The proof starts from the explicit natural-number bound
+in `KDeltaCondition`, so the truncated subtraction in `p - 3` is accounted for.
+-/
+theorem k_lt_search_bound {p k : ℕ} (h : KDeltaCondition p k) :
+    k < (p - 3) / 6 + 1 := by
+  have hOffset : 6 * k + 3 < p + 1 := h.1
+  omega
+
+end KDeltaCondition
+
 /-- Existence of a Δ offset is equivalent to existence of its `k`-coordinate. -/
 theorem exists_deltaCondition_iff_exists_kDeltaCondition {p : ℕ} :
     (∃ δ : ℕ, DeltaCondition p δ) ↔ ∃ k : ℕ, KDeltaCondition p k := by
@@ -98,3 +117,13 @@ theorem not_rawDeltaConjecture : ¬ RawDeltaConjecture := by
   exact h 3 (by norm_num [IsCousinPrime])
 
 end Delta
+
+/-!
+## Direct-file verification summary
+
+Running `lake env lean Delta/Conjecture.lean` prints these signatures after Lean
+has elaborated and kernel-checked the finite-search bounds.
+-/
+
+#check Delta.KDeltaCondition.offset_lt_center
+#check Delta.KDeltaCondition.k_lt_search_bound
