@@ -68,3 +68,19 @@ theorem prime_pair_mod_three {p δ : ℕ} (hp3 : 3 < p) (hp : IsCousinPrime p)
 end DeltaCondition
 
 end Delta
+
+/-!
+## Direct-file verification summary
+
+Running `lake env lean Delta/Residues.lean` prints the signatures below.  Their
+presence means Lean successfully elaborated and kernel-checked each theorem;
+any failure is reported as an error with a source location and a nonzero exit
+status.
+-/
+
+#check Delta.IsCousinPrime.start_mod_three
+#check Delta.IsCousinPrime.center_mod_three
+#check Delta.DeltaCondition.delta_mod_six
+#check Delta.DeltaCondition.lower_modEq_center
+#check Delta.DeltaCondition.upper_modEq_center
+#check Delta.DeltaCondition.prime_pair_mod_three
