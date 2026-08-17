@@ -1,5 +1,6 @@
 name = "lean-delta"
 version = "0.1.0"
+defaultTargets = ["Delta"]
 
 [[require]]
 name = "mathlib"
